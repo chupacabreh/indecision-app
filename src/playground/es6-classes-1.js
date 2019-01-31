@@ -1,11 +1,3 @@
-//classes are like a blueprint - reusuable code
-
-// Car Class
-// make
-// model
-// vin
-// getDescription - method we can have access to on all instances of the car class
-
 class Person {
   constructor(name = "Anonymous", age = 0) {
     this.name = name;
@@ -20,9 +12,43 @@ class Person {
   }
 }
 
-const me = new Person("Matt", 35);
+class Student extends Person {
+  constructor(name, age, major) {
+    super(name, age); // super refers to the parent class
+    this.major = major;
+  }
+  hasMajor() {
+    return !!this.major;
+  }
+  getDescription() {
+    let description = super.getDescription();
 
-const other = new Person();
+    if (this.hasMajor()) {
+      description += ` Their major is ${this.major}`;
+    }
 
-console.log(me.getDescription());
-console.log(other.getDescription());
+    return description;
+  }
+}
+
+class Traveler extends Person {
+  constructor(name, age, homeLocation) {
+    super(name, age);
+    this.homeLocation = homeLocation;
+  }
+
+  getGreeting() {
+    let greeting = super.getGreeting();
+
+    if (this.homeLocation) {
+      return `${greeting} I'm visting from ${this.homeLocation}`;
+    }
+    return greeting;
+  }
+}
+
+const me = new Traveler("Matt", 35, "Oakland");
+console.log(me.getGreeting());
+
+const other = new Traveler();
+console.log(other.getGreeting());
