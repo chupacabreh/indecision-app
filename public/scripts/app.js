@@ -17,20 +17,21 @@ var Person = function () {
 
     _classCallCheck(this, Person);
 
-    this.name = name;
+    // <-- name = "Anonymous" is a function default.
+    this.name = name; // inside class methods, 'this' refers to the class instance
     this.age = age;
   }
 
   _createClass(Person, [{
     key: "getGreeting",
     value: function getGreeting() {
-      // return "Hi " + this.name + "!";
-      return "Hi. I am " + this.name + "!";
+      // return "Hi! I am" + this.name + "!";
+      return "Hi. I am " + this.name + "."; // back ticks are template strings - can inject values right into the string
     }
   }, {
     key: "getDescription",
     value: function getDescription() {
-      return this.name + " is " + this.age + " years old.";
+      return this.name + " is " + this.age + " years(s) old.";
     }
   }]);
 
@@ -43,7 +44,6 @@ var Student = function (_Person) {
   function Student(name, age, major) {
     _classCallCheck(this, Student);
 
-    // super refers to the parent class
     var _this = _possibleConstructorReturn(this, (Student.__proto__ || Object.getPrototypeOf(Student)).call(this, name, age));
 
     _this.major = major;
@@ -61,7 +61,7 @@ var Student = function (_Person) {
       var description = _get(Student.prototype.__proto__ || Object.getPrototypeOf(Student.prototype), "getDescription", this).call(this);
 
       if (this.hasMajor()) {
-        description += " Their major is " + this.major;
+        description += " Their major is " + this.major + ".";
       }
 
       return description;
@@ -82,6 +82,10 @@ var Traveler = function (_Person2) {
     _this2.homeLocation = homeLocation;
     return _this2;
   }
+  // hasLocation() {
+  //   return !!this.homeLocation;
+  // }
+
 
   _createClass(Traveler, [{
     key: "getGreeting",
@@ -89,8 +93,9 @@ var Traveler = function (_Person2) {
       var greeting = _get(Traveler.prototype.__proto__ || Object.getPrototypeOf(Traveler.prototype), "getGreeting", this).call(this);
 
       if (this.homeLocation) {
-        return greeting + " I'm visting from " + this.homeLocation;
+        greeting += " I'm visiting from " + this.homeLocation + ".";
       }
+
       return greeting;
     }
   }]);
@@ -98,8 +103,9 @@ var Traveler = function (_Person2) {
   return Traveler;
 }(Person);
 
-var me = new Traveler("Matt", 35, "Oakland");
+var me = new Traveler("Matt Freitas", 35, "Oakland"); // <-- creating an instance of the class
 console.log(me.getGreeting());
-
+// constructor function is the function that gets called when we make a new instance
+// it gets called with all of the arguments that we pass in
 var other = new Traveler();
 console.log(other.getGreeting());
