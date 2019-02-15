@@ -1,111 +1,97 @@
 "use strict";
 
-var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+console.log("App.js is running");
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var app = {
+  title: "Indecision App",
+  subtitle: "this is some info for the subtitle",
+  options: []
+};
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+var onFormSubmit = function onFormSubmit(e) {
+  e.preventDefault(); //stops full page refresh on form submit
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+  var option = e.target.elements.option.value;
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Person = function () {
-  function Person() {
-    var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "Anonymous";
-    var age = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-
-    _classCallCheck(this, Person);
-
-    // <-- name = "Anonymous" is a function default.
-    this.name = name; // inside class methods, 'this' refers to the class instance
-    this.age = age;
+  if (option) {
+    app.options.push(option);
+    e.target.elements.option.value = "";
+    render();
   }
+};
 
-  _createClass(Person, [{
-    key: "getGreeting",
-    value: function getGreeting() {
-      // return "Hi! I am" + this.name + "!";
-      return "Hi. I am " + this.name + "."; // back ticks are template strings - can inject values right into the string
-    }
-  }, {
-    key: "getDescription",
-    value: function getDescription() {
-      return this.name + " is " + this.age + " years(s) old.";
-    }
-  }]);
+var removeAll = function removeAll() {
+  app.options = [];
+  render();
+};
 
-  return Person;
-}();
+var onMakeDecision = function onMakeDecision() {
+  var randomNum = Math.floor(Math.random() * app.options.length);
+  var option = app.options[randomNum];
+  alert(option);
+};
 
-var Student = function (_Person) {
-  _inherits(Student, _Person);
+var appRoot = document.getElementById("app");
 
-  function Student(name, age, major) {
-    _classCallCheck(this, Student);
+var numbers = [55, 101, 1000];
 
-    var _this = _possibleConstructorReturn(this, (Student.__proto__ || Object.getPrototypeOf(Student)).call(this, name, age));
+var render = function render() {
+  var template = React.createElement(
+    "div",
+    null,
+    React.createElement(
+      "h1",
+      null,
+      app.title
+    ),
+    app.subtitle && React.createElement(
+      "p",
+      null,
+      app.subtitle
+    ),
+    app.options.length > 0 ? React.createElement(
+      "p",
+      null,
+      "Here are your options:"
+    ) : React.createElement(
+      "p",
+      null,
+      "no options"
+    ),
+    React.createElement(
+      "button",
+      { disabled: app.options.length === 0, onClick: onMakeDecision },
+      "What should I do?"
+    ),
+    React.createElement(
+      "ol",
+      null,
+      app.options.map(function (option) {
+        return React.createElement(
+          "li",
+          { key: option },
+          option
+        );
+      })
+    ),
+    React.createElement(
+      "form",
+      { onSubmit: onFormSubmit },
+      React.createElement("input", { type: "text", name: "option" }),
+      React.createElement(
+        "button",
+        null,
+        "Add Option"
+      ),
+      React.createElement(
+        "button",
+        { onClick: removeAll },
+        "Remove All"
+      )
+    )
+  );
 
-    _this.major = major;
-    return _this;
-  }
+  ReactDOM.render(template, appRoot);
+};
 
-  _createClass(Student, [{
-    key: "hasMajor",
-    value: function hasMajor() {
-      return !!this.major;
-    }
-  }, {
-    key: "getDescription",
-    value: function getDescription() {
-      var description = _get(Student.prototype.__proto__ || Object.getPrototypeOf(Student.prototype), "getDescription", this).call(this);
-
-      if (this.hasMajor()) {
-        description += " Their major is " + this.major + ".";
-      }
-
-      return description;
-    }
-  }]);
-
-  return Student;
-}(Person);
-
-var Traveler = function (_Person2) {
-  _inherits(Traveler, _Person2);
-
-  function Traveler(name, age, homeLocation) {
-    _classCallCheck(this, Traveler);
-
-    var _this2 = _possibleConstructorReturn(this, (Traveler.__proto__ || Object.getPrototypeOf(Traveler)).call(this, name, age));
-
-    _this2.homeLocation = homeLocation;
-    return _this2;
-  }
-  // hasLocation() {
-  //   return !!this.homeLocation;
-  // }
-
-
-  _createClass(Traveler, [{
-    key: "getGreeting",
-    value: function getGreeting() {
-      var greeting = _get(Traveler.prototype.__proto__ || Object.getPrototypeOf(Traveler.prototype), "getGreeting", this).call(this);
-
-      if (this.homeLocation) {
-        greeting += " I'm visiting from " + this.homeLocation + ".";
-      }
-
-      return greeting;
-    }
-  }]);
-
-  return Traveler;
-}(Person);
-
-var me = new Traveler("Matt Freitas", 35, "Oakland"); // <-- creating an instance of the class
-console.log(me.getGreeting());
-// constructor function is the function that gets called when we make a new instance
-// it gets called with all of the arguments that we pass in
-var other = new Traveler();
-console.log(other.getGreeting());
+render();
