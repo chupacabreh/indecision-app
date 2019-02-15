@@ -37,9 +37,6 @@ class Traveler extends Person {
     super(name, age);
     this.homeLocation = homeLocation;
   }
-  // hasLocation() {
-  //   return !!this.homeLocation;
-  // }
   getGreeting() {
     let greeting = super.getGreeting();
 
