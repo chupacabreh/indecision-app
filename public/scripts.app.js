@@ -1,49 +1,3 @@
-class Counter extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleAddOne = this.handleAddOne.bind(this);
-    this.handleMinusOne = this.handleMinusOne.bind(this);
-    this.handleReset = this.handleReset.bind(this);
-    this.state = {
-      count: 0
-    }
-  }
-  handleAddOne() {
-    this.setState((prevState) => {
-      return {
-        count: prevState.count + 1
-      }
-    })
-  }
-  handleMinusOne() {
-    this.setState((prevState) => {
-      return {
-        count: prevState.count - 1
-      }
-    })
-  }
-  handleReset() {
-    this.setState(() => {
-      return {
-        count: 0
-      }
-    })
-  }
-  render() {
-    return (
-      <div>
-        <h1>Count: {this.state.count}</h1>
-        <button onClick={this.handleAddOne}>+1</button>
-        <button onClick={this.handleMinusOne}>-1</button>
-        <button onClick={this.handleReset}>reset</button>
-      </div>
-    )
-  }
-}
-
-ReactDOM.render(<Counter />, document.getElementById('app'));
-
-
 // 'use strict';
 
 // var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -251,3 +205,4 @@ ReactDOM.render(<Counter />, document.getElementById('app'));
 // }(React.Component);
 
 // ReactDOM.render(React.createElement(IndecisionApp, null), document.getElementById('app'));
+"use strict";
